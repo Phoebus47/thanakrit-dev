@@ -517,10 +517,14 @@
          340px  Galaxy Fold / 320px target
        ════════════════════════════════════════════ */
 
-    /* ── 768px — tablet portrait ── */
-    @media (max-width: 768px) {
+    /* ── 900px — hamburger activates ── */
+    @media (max-width: 900px) {
       .nav-right  { display: none; }
       .nav-burger { display: flex; }
+    }
+
+    /* ── 768px — tablet portrait ── */
+    @media (max-width: 768px) {
       .hero-body  { grid-template-columns: 1fr; gap: 2rem; }
       .hero-portrait {
         aspect-ratio: 4/5;
@@ -1097,6 +1101,9 @@
       });
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && overlay.classList.contains('open')) closeMenu();
+      });
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 900 && overlay.classList.contains('open')) closeMenu();
       });
     })();
 
