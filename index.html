@@ -107,6 +107,7 @@
       font-family: var(--serif); font-size: 0.92rem; font-weight: 400;
       letter-spacing: 0.06em; color: rgba(232,230,224,0.8); white-space: nowrap;
     }
+    .nav-right-wrap { display: flex; justify-content: flex-end; align-items: center; }
     .nav-right {
       display: flex; justify-content: flex-end; align-items: center; gap: 2rem;
       list-style: none;
@@ -123,6 +124,74 @@
     }
     .nav-right a:hover { color: var(--ink-2); }
     .nav-right a:hover::after { transform: scaleX(1); }
+
+    /* ── HAMBURGER ── */
+    .nav-burger {
+      display: none; flex-direction: column; justify-content: center; align-items: flex-end;
+      gap: 5px; width: 32px; height: 32px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .nav-burger span {
+      display: block; height: 1px; background: var(--ink-2);
+      transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+    }
+    .nav-burger span:first-child { width: 20px; }
+    .nav-burger span:last-child  { width: 13px; }
+    .nav-burger.open span:first-child { width: 18px; transform: rotate(45deg) translate(4px, 4px); }
+    .nav-burger.open span:last-child  { width: 18px; transform: rotate(-45deg) translate(4px, -4px); }
+
+    /* ── NAV OVERLAY ── */
+    .nav-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(10,10,11,0.97);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 var(--pad);
+      opacity: 0; pointer-events: none; visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .nav-overlay.open { opacity: 1; pointer-events: all; visibility: visible; }
+    .nav-overlay-close {
+      position: absolute; top: 0; right: var(--pad);
+      height: var(--nav-h); width: 32px;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--mono); font-size: 0.9rem; color: var(--ink-3);
+      display: flex; align-items: center; justify-content: center;
+      transition: color 0.2s;
+    }
+    .nav-overlay-close:hover { color: var(--ink); }
+    .nav-overlay-links { display: flex; flex-direction: column; }
+    .nav-ol {
+      display: flex; align-items: baseline; gap: 1.25rem;
+      padding: 1.1rem 0; border-bottom: 1px solid var(--ink-5);
+      text-decoration: none;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 0.35s ease, transform 0.35s ease, color 0.2s;
+    }
+    .nav-ol:first-child { border-top: 1px solid var(--ink-5); }
+    .nav-overlay.open .nav-ol:nth-child(1) { opacity:1; transform:none; transition-delay:0.05s; }
+    .nav-overlay.open .nav-ol:nth-child(2) { opacity:1; transform:none; transition-delay:0.10s; }
+    .nav-overlay.open .nav-ol:nth-child(3) { opacity:1; transform:none; transition-delay:0.15s; }
+    .nav-overlay.open .nav-ol:nth-child(4) { opacity:1; transform:none; transition-delay:0.20s; }
+    .nav-ol:hover .nav-ol-t { color: var(--ink-2); }
+    .nav-ol-n {
+      font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.15em;
+      color: var(--ink-3); min-width: 2rem;
+    }
+    .nav-ol-t {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 9vw, 3.5rem);
+      font-weight: 300; letter-spacing: -0.02em; color: var(--ink);
+      transition: color 0.2s;
+    }
+    .nav-overlay-footer {
+      position: absolute; bottom: 2rem; left: var(--pad);
+      font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nav-ol { opacity: 1; transform: none; transition: none; }
+      .nav-overlay { transition: none; }
+    }
 
     /* ── LAYOUT ── */
     .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad); position: relative; z-index: 1; }
@@ -450,6 +519,8 @@
 
     /* ── 768px — tablet portrait ── */
     @media (max-width: 768px) {
+      .nav-right  { display: none; }
+      .nav-burger { display: flex; }
       .hero-body  { grid-template-columns: 1fr; gap: 2rem; }
       .hero-portrait {
         aspect-ratio: 4/5;
@@ -462,7 +533,6 @@
 
     /* ── 640px — large mobile ── */
     @media (max-width: 640px) {
-      .nav-inner  { grid-template-columns: 1fr auto; }
       .nav-left   { display: none; }
       .col-type   { display: none; }
       .col-idx    { width: 2rem; font-size: 0.5rem; }
@@ -492,9 +562,6 @@
       .h-stat-n   { font-size: 1.5rem; }
       .hero-cta   { gap: 1rem; }
       .cta-btn    { font-size: 0.55rem; letter-spacing: 0.12em; }
-      .nav-center { font-size: 0.72rem; }
-      .nav-right  { gap: 0.7rem; }
-      .nav-right a { font-size: 0.46rem; letter-spacing: 0.07em; }
       .s-title    { font-size: 1.7rem; }
       .feat-card  { padding: 1.4rem; }
       .feat-title { font-size: 1.2rem; }
@@ -517,9 +584,6 @@
       .feat-card  { padding: 1.1rem; }
       .lh-wrap    { padding: 1rem; }
       .sk-col     { padding: 1.1rem; }
-      .nav-center { font-size: 0.62rem; }
-      .nav-right  { gap: 0.45rem; }
-      .nav-right a { font-size: 0.43rem; letter-spacing: 0.04em; }
       .tl-body    { padding: 1rem 0; }
       .contact-item  { padding: 1.1rem; }
       .contact-val   { font-size: 0.85rem; word-break: break-all; }
@@ -589,14 +653,32 @@
     <div class="nav-inner">
       <span class="nav-left">Full-Stack Developer</span>
       <span class="nav-center">Thanakrit Thanyawatsakul</span>
-      <ul class="nav-right" role="list">
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#timeline">Timeline</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+      <div class="nav-right-wrap">
+        <ul class="nav-right" role="list">
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#timeline">Timeline</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button id="nav-burger" class="nav-burger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-overlay">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
     </div>
   </nav>
+
+  <!-- ── MOBILE OVERLAY ── -->
+  <div id="nav-overlay" class="nav-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation">
+    <button id="nav-close" class="nav-overlay-close" aria-label="Close navigation menu">✕</button>
+    <div class="nav-overlay-links">
+      <a href="#projects" class="nav-ol"><span class="nav-ol-n">01</span><span class="nav-ol-t">Projects</span></a>
+      <a href="#skills"   class="nav-ol"><span class="nav-ol-n">02</span><span class="nav-ol-t">Skills</span></a>
+      <a href="#timeline" class="nav-ol"><span class="nav-ol-n">03</span><span class="nav-ol-t">Timeline</span></a>
+      <a href="#contact"  class="nav-ol"><span class="nav-ol-n">04</span><span class="nav-ol-t">Contact</span></a>
+    </div>
+    <div class="nav-overlay-footer">thanakrit.dev · 2026</div>
+  </div>
 
   <main>
     <div class="wrap">
@@ -983,6 +1065,40 @@
   </footer>
 
   <script>
+    // ── HAMBURGER NAV ──
+    (function() {
+      var burger  = document.getElementById('nav-burger');
+      var overlay = document.getElementById('nav-overlay');
+      var close   = document.getElementById('nav-close');
+      if (!burger || !overlay) return;
+
+      function openMenu() {
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        burger.setAttribute('aria-expanded', 'true');
+        burger.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        close.focus();
+      }
+      function closeMenu() {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        burger.setAttribute('aria-expanded', 'false');
+        burger.classList.remove('open');
+        document.body.style.overflow = '';
+        burger.focus();
+      }
+
+      burger.addEventListener('click', openMenu);
+      close.addEventListener('click', closeMenu);
+      overlay.querySelectorAll('.nav-ol').forEach(function(link) {
+        link.addEventListener('click', closeMenu);
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) closeMenu();
+      });
+    })();
+
     // ── REVEAL ──
     const revObs = new IntersectionObserver(entries => entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('on'); revObs.unobserve(e.target); }
