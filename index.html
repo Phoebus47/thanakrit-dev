@@ -20,15 +20,24 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='4' fill='%230a0a0b'/%3E%3Cpath d='M18 18h28v5H37v23h-9V23H18z' fill='%23e8e6e0'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Cormorant Garamond: display=optional eliminates CLS from font swap -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=optional" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=optional" media="print" onload="this.media='all'" />
+  <!-- Cormorant Garamond: display=swap + metric-matched fallback to eliminate CLS -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" media="print" onload="this.media='all'" />
   <!-- Geist Mono: display=optional (code blocks, non-critical for LCP) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&display=optional" media="print" onload="this.media='all'" />
   <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=optional&family=Geist+Mono:wght@300;400;500&display=optional" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap&family=Geist+Mono:wght@300;400;500&display=optional" />
   </noscript>
   <style>
+    /* Metric-matched fallback: Georgia adjusted to Cormorant Garamond dimensions */
+    @font-face {
+      font-family: 'Cormorant Fallback';
+      src: local('Georgia');
+      size-adjust: 88.32%;
+      ascent-override: 104.62%;
+      descent-override: 32.50%;
+      line-gap-override: 0%;
+    }
     /* ── TOKENS ── */
     :root {
       --ink:     #e8e6e0;
@@ -41,7 +50,7 @@
       --bg-2:    #18181b;
       --green:   #6ee7b7;
       --green-d: rgba(110,231,183,0.12);
-      --serif:   'Cormorant Garamond', Georgia, serif;
+      --serif:   'Cormorant Garamond', 'Cormorant Fallback', Georgia, serif;
       --mono:    'Geist Mono', 'Fira Code', monospace;
       --nav-h:   56px;
       --max-w:   1160px;
